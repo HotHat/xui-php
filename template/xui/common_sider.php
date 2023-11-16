@@ -1,0 +1,33 @@
+<a-layout-sider id="sider" collapsible breakpoint="md" collapsed-width="0">
+    <a-menu theme="dark" mode="inline" :selected-keys="['{{ .request_uri }}']"
+            @click="({key}) => key.startsWith('http') ? window.open(key) : location.href = key">
+        <?php render("xui/menu_item.php"); ?>
+    </a-menu>
+</a-layout-sider>
+<a-drawer id="sider-drawer" placement="left" :closable="false"
+          @close="siderDrawer.close()"
+          :visible="siderDrawer.visible" :wrap-style="{ padding: 0 }">
+    <div class="drawer-handle" @click="siderDrawer.change()" slot="handle">
+        <a-icon :type="siderDrawer.visible ? 'close' : 'menu-fold'"></a-icon>
+    </div>
+    <a-menu theme="light" mode="inline" :selected-keys="['{{ .request_uri }}']"
+        @click="({key}) => key.startsWith('http') ? window.open(key) : location.href = key">
+        <?php render("xui/menu_item.php"); ?>
+    </a-menu>
+</a-drawer>
+<script>
+
+    const siderDrawer = {
+    visible: false,
+        show() {
+        this.visible = true;
+        },
+        close() {
+        this.visible = false;
+        },
+        change() {
+        this.visible = !this.visible;
+        }
+    };
+
+</script>
