@@ -1,4 +1,3 @@
-{{define "form/socks"}}
 <a-form layout="inline">
     <a-form-item label="密码认证">
         <a-switch :checked="inbound.settings.auth === 'password'"
@@ -20,4 +19,3 @@
         <a-input v-model.trim="inbound.settings.ip"></a-input>
     </a-form-item>
 </a-form>
-{{end}}

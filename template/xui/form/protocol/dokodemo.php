@@ -1,4 +1,3 @@
-{{define "form/dokodemo"}}
 <a-form layout="inline">
     <a-form-item label="目标地址">
         <a-input v-model.trim="inbound.settings.address"></a-input>
@@ -14,4 +13,3 @@
         </a-select>
     </a-form-item>
 </a-form>
-{{end}}

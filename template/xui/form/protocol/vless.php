@@ -1,4 +1,3 @@
-{{define "form/vless"}}
 <a-form layout="inline">
     <a-form-item label="id">
         <a-input v-model.trim="inbound.settings.vlesses[0].id"></a-input>
@@ -46,4 +45,3 @@
     </a-form-item>
     <a-divider v-if="inbound.settings.fallbacks.length - 1 === index"/>
 </a-form>
-{{end}}

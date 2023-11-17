@@ -1,4 +1,3 @@
-{{define "form/streamKCP"}}
 <a-form layout="inline">
     <a-form-item label="伪装">
         <a-select v-model="inbound.stream.kcp.type" style="width: 280px;">
@@ -35,4 +34,3 @@
         <a-input type="number" v-model.number="inbound.stream.kcp.writeBuffer"></a-input>
     </a-form-item>
 </a-form>
-{{end}}

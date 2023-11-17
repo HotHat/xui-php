@@ -1,4 +1,3 @@
-{{define "form/shadowsocks"}}
 <a-form layout="inline">
     <a-form-item label="加密">
         <a-select v-model="inbound.settings.method" style="width: 165px;">
@@ -16,4 +15,3 @@
         </a-select>
     </a-form-item>
 </a-form>
-{{end}}

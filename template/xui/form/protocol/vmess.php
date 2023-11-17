@@ -1,4 +1,3 @@
-{{define "form/vmess"}}
 <a-form layout="inline">
     <a-form-item label="id">
         <a-input v-model.trim="inbound.settings.vmesses[0].id"></a-input>
@@ -10,4 +9,3 @@
         <a-switch v-model.number="inbound.settings.disableInsecure"></a-switch>
     </a-form-item>
 </a-form>
-{{end}}

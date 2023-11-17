@@ -1,4 +1,3 @@
-{{define "form/streamHTTP"}}
 <a-form layout="inline">
     <a-form-item label="路径">
         <a-input v-model.trim="inbound.stream.http.path"></a-input>
@@ -9,4 +8,3 @@
         </a-row>
     </a-form-item>
 </a-form>
-{{end}}

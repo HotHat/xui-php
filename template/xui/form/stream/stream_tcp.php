@@ -1,9 +1,8 @@
-{{define "form/streamTCP"}}
 <!-- tcp type -->
 <a-form layout="inline">
-    <a-form-item label="acceptProxyProtocol">
-        <a-switch v-model="inbound.stream.tcp.acceptProxyProtocol"></a-switch>
-    </a-form-item>
+<!--    <a-form-item label="acceptProxyProtocol">-->
+<!--        <a-switch v-model="inbound.stream.tcp.acceptProxyProtocol"></a-switch>-->
+<!--    </a-form-item>-->
     <a-form-item label="http 伪装">
         <a-switch
                 :checked="inbound.stream.tcp.type === 'http'"
@@ -83,4 +82,3 @@
         </a-input-group>
     </a-form-item>
 </a-form>
-{{end}}

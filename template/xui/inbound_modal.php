@@ -1,7 +1,7 @@
 <a-modal id="inbound-modal" v-model="inModal.visible" :title="inModal.title" @ok="inModal.ok"
          :confirm-loading="inModal.confirmLoading" :closable="true" :mask-closable="false"
-         :ok-text="inModal.okText" cancel-text='{{ i18n "close" }}'>
-    {{template "form/inbound"}}
+         :ok-text="inModal.okText" cancel-text='关闭'>
+    <?php render('xui/form/inbound.php'); ?>
 </a-modal>
 <script>
 

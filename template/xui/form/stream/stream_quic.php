@@ -1,4 +1,3 @@
-{{define "form/streamQUIC"}}
 <a-form layout="inline">
     <a-form-item label="加密">
         <a-select v-model="inbound.stream.quic.security" style="width: 165px;">
@@ -21,4 +20,3 @@
         </a-select>
     </a-form-item>
 </a-form>
-{{end}}

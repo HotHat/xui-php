@@ -1,4 +1,3 @@
-{{define "form/streamSettings"}}
 <!-- select stream network -->
 <a-form layout="inline">
     <a-form-item label="传输">
@@ -15,31 +14,30 @@
 
 <!-- tcp -->
 <template v-if="inbound.stream.network === 'tcp'">
-    {{template "form/streamTCP"}}
+    <?php render('xui/form/stream/stream_tcp.php'); ?>
 </template>
 
 <!-- kcp -->
 <template v-if="inbound.stream.network === 'kcp'">
-    {{template "form/streamKCP"}}
+    <?php render('xui/form/stream/stream_kcp.php'); ?>
 </template>
 
 <!-- ws -->
 <template v-if="inbound.stream.network === 'ws'">
-    {{template "form/streamWS"}}
+    <?php render('xui/form/stream/stream_ws.php'); ?>
 </template>
 
 <!-- http -->
 <template v-if="inbound.stream.network === 'http'">
-    {{template "form/streamHTTP"}}
+    <?php render('xui/form/stream/stream_http.php'); ?>
 </template>
 
 <!-- quic -->
 <template v-if="inbound.stream.network === 'quic'">
-    {{template "form/streamQUIC"}}
+    <?php render('xui/form/stream/stream_quic.php'); ?>
 </template>
 
 <!-- grpc -->
 <template v-if="inbound.stream.network === 'grpc'">
-    {{template "form/streamGRPC"}}
+    <?php render('xui/form/stream/stream_grpc.php'); ?>
 </template>
-{{end}}

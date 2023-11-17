@@ -1,4 +1,3 @@
-{{define "form/tlsSettings"}}
 <!-- tls enable -->
 <a-form layout="inline" v-if="inbound.canSetTls()">
     <a-form-item label="tls">
@@ -45,9 +44,8 @@
         </a-form-item>
     </template>
 </a-form>
-<a-form layout="inline" v-else-if = "inbound.stream.network === 'tcp' ">
-    <a-form-item label="tcp-acceptProxyProtocol">
-        <a-switch v-model="inbound.stream.tcp.acceptProxyProtocol"></a-switch>
-    </a-form-item>
-</a-form>
-{{end}}
+<!--<a-form layout="inline" v-else-if = "inbound.stream.network === 'tcp' ">-->
+<!--    <a-form-item label="tcp-acceptProxyProtocol">-->
+<!--        <a-switch v-model="inbound.stream.tcp.acceptProxyProtocol"></a-switch>-->
+<!--    </a-form-item>-->
+<!--</a-form>-->

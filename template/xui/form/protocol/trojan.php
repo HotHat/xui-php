@@ -1,4 +1,3 @@
-{{define "form/trojan"}}
 <a-form layout="inline">
     <a-form-item label="密码">
         <a-input v-model.trim="inbound.settings.clients[0].password"></a-input>
@@ -46,4 +45,3 @@
     </a-form-item>
     <a-divider v-if="inbound.settings.fallbacks.length - 1 === index"/>
 </a-form>
-{{end}}

@@ -15,6 +15,7 @@ spl_autoload_register(function ($class) {
 
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
+$parseUrl = parse_url($uri);
 
 $router = [];
 
@@ -27,6 +28,7 @@ $router['login/submit'] = action([LoginController::class, 'submit']);
 $router['xui'] = action([DashboardController::class, 'dashboard']);
 
 $router['xui/inbounds'] = action([InboundController::class, 'index']);
+$router['xui/inbound/list'] = action([InboundController::class, 'list']);
 
 $router['server/status'] = action([DashboardController::class, 'status']);
 
@@ -34,7 +36,7 @@ $router['server/status'] = action([DashboardController::class, 'status']);
 // start session
 session_start();
 
-if (isset($router[$uri])) {
-    $action = $router[$uri];
+if (isset($router[$parseUrl['path']])) {
+    $action = $router[$parseUrl['path']];
     $action();
 }

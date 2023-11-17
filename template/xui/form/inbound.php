@@ -1,13 +1,12 @@
-{{define "form/inbound"}}
 <!-- base -->
 <a-form layout="inline">
-    <a-form-item label='{{ i18n "remark" }}'>
+    <a-form-item label='备注'>
         <a-input v-model.trim="dbInbound.remark"></a-input>
     </a-form-item>
-    <a-form-item label='{{ i18n "enable" }}'>
+    <a-form-item label='启用'>
         <a-switch v-model="dbInbound.enable"></a-switch>
     </a-form-item>
-    <a-form-item label='{{ i18n "protocol" }}'>
+    <a-form-item label='协议'>
         <a-select v-model="inbound.protocol" style="width: 160px;">
             <a-select-option v-for="p in Protocols" :key="p" :value="p">[[ p ]]</a-select-option>
         </a-select>
@@ -56,51 +55,50 @@
 
 <!-- vmess settings -->
 <template v-if="inbound.protocol === Protocols.VMESS">
-    {{template "form/vmess"}}
+    <?php render('xui/form/protocol/vmess.php'); ?>
 </template>
 
 <!-- vless settings -->
 <template v-if="inbound.protocol === Protocols.VLESS">
-    {{template "form/vless"}}
+    <?php render('xui/form/protocol/vless.php'); ?>
 </template>
 
 <!-- trojan settings -->
 <template v-if="inbound.protocol === Protocols.TROJAN">
-    {{template "form/trojan"}}
+    <?php render('xui/form/protocol/trojan.php'); ?>
 </template>
 
 <!-- shadowsocks -->
 <template v-if="inbound.protocol === Protocols.SHADOWSOCKS">
-    {{template "form/shadowsocks"}}
+    <?php render('xui/form/protocol/shadowsocks.php'); ?>
 </template>
 
 <!-- dokodemo-door -->
 <template v-if="inbound.protocol === Protocols.DOKODEMO">
-    {{template "form/dokodemo"}}
+    <?php render('xui/form/protocol/dokodemo.php'); ?>
 </template>
 
 <!-- socks -->
 <template v-if="inbound.protocol === Protocols.SOCKS">
-    {{template "form/socks"}}
+    <?php render('xui/form/protocol/socks.php'); ?>
 </template>
 
 <!-- http -->
 <template v-if="inbound.protocol === Protocols.HTTP">
-    {{template "form/http"}}
+    <?php render('xui/form/protocol/http.php'); ?>
 </template>
 
 <!-- stream settings -->
 <template v-if="inbound.canEnableStream()">
-    {{template "form/streamSettings"}}
+    <?php render('xui/form/stream/stream_settings.php'); ?>
 </template>
 
 <!-- tls settings -->
 <template v-if="inbound.canEnableTls()">
-    {{template "form/tlsSettings"}}
+    <?php render('xui/form/tls_settings.php'); ?>
 </template>
 
 <!-- sniffing -->
 <template v-if="inbound.canSniffing()">
-    {{template "form/sniffing"}}
+    <?php render('xui/form/sniffing.php'); ?>
 </template>
-{{end}}

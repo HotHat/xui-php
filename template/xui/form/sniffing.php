@@ -1,4 +1,3 @@
-{{define "form/sniffing"}}
 <a-form layout="inline">
   <a-form-item>
             <span slot="label">
@@ -13,4 +12,3 @@
     <a-switch v-model="inbound.sniffing.enabled"></a-switch>
   </a-form-item>
 </a-form>
-{{end}}

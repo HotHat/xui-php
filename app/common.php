@@ -47,7 +47,7 @@ function resp_json($data) {
     echo json_encode($data);
 }
 
-function resp_success($data) {
+function resp_success($data=null) {
    resp_json([
        'success' => 1,
        'msg' => '操作成功',

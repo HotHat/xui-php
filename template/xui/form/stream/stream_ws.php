@@ -1,4 +1,3 @@
-{{define "form/streamWS"}}
 <a-form layout="inline">
     <a-form-item label="acceptProxyProtocol">
         <a-switch v-model="inbound.stream.ws.acceptProxyProtocol"></a-switch>
@@ -30,4 +29,3 @@
         </a-input-group>
     </a-form-item>
 </a-form>
-{{end}}
