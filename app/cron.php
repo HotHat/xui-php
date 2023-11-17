@@ -1,18 +1,22 @@
 <?php declare(strict_types=1);
 if (PHP_SAPI !== 'cli') { die(); }
 
+require "common.php";
 require "Command/XRun.php";
-require "Database/db.php";
+
+// init tables
+initXui();
+
+
 // $app = new XRun();
 
 // $app->stats();
-//
+
 /*
 $db->query( <<<'EOF'
  create table if not exists user (id int auto increment primary key, name char(20), password char(32), created_at char(20))
 EOF
 );
-*/
 
 $db = new DB(__DIR__ . '/Database/', 'db.sqlite');
 
@@ -31,6 +35,8 @@ $db->exec("create table if not exists user (id ROWID, name char(20), password ch
 
 // var_dump('last insert id: '. $id);
 
-$data = $db->query('select rowid as id,* from user where rowid=1');
+$data = DB::instance()->fetchOne('select rowid as id, * from user');
 print_r($data);
 // print_r($db->lastError());
+
+*/

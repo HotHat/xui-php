@@ -11,10 +11,21 @@ class LoginController
     }
 
     public function submit() {
-        // var_dump($_REQUEST);
-        auth_login([
-            'name' => 'abc'
-        ]);
+        $username = $_POST['username'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $user = \DB::instance()->fetchOne('select rowid as id, * from user where username=?', [$username]);
+
+        if (empty($user)) {
+            resp_fail('登录失败');
+        }
+
+        if (!hash_verify($password, $user['password'])) {
+            resp_fail('登录失败');
+        }
+
+        // session login
+        auth_login($user);
+
         resp_success();
     }
 

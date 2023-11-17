@@ -1,5 +1,5 @@
 <?php
-class DB {
+class SqliteDB {
     const KEY = 'Noreh282oE';
     private $db;
     public function __construct($path, $dbname)
@@ -30,6 +30,11 @@ class DB {
         }
 
         return $data;
+    }
+    public function fetchOne($sql, $bind = []) {
+        $data = $this->query($sql, $bind);
+        if (empty($data)) { return null; }
+        return $data[0];
     }
 
     public function insert($sql, $bind) {
