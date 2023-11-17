@@ -16,21 +16,21 @@ class LoginController
         $user = \DB::instance()->fetchOne('select rowid as id, * from user where username=?', [$username]);
 
         if (empty($user)) {
-            resp_fail('登录失败');
+            respFail('登录失败');
         }
 
-        if (!hash_verify($password, $user['password'])) {
-            resp_fail('登录失败');
+        if (!hashVerify($password, $user['password'])) {
+            respFail('登录失败');
         }
 
         // session login
-        auth_login($user);
+        authLogin($user);
 
-        resp_success();
+        respSuccess();
     }
 
     public function logout() {
-        session_flush();
+        sessionFlush();
         redirect('/login');
     }
 }

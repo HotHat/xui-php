@@ -6,8 +6,13 @@ require "Command/XRun.php";
 
 // init tables
 initXui();
+registerExceptionHandler();
 
+$json = '{"stat":[{"name":"inbound>>>inbound-7532>>>traffic>>>downlink"},{"name":"inbound>>>tcp>>>traffic>>>uplink"},{"name":"inbound>>>tcp>>>traffic>>>downlink"},{"name":"inbound>>>api>>>traffic>>>uplink","value":"3174"},{"name":"inbound>>>api>>>traffic>>>downlink","value":"2267"},{"name":"user>>>vless001@33448899.com>>>traffic>>>uplink","value":"6250586"},{"name":"user>>>vless001@33448899.com>>>traffic>>>downlink","value":"1686444639"},{"name":"inbound>>>inbound-7532>>>traffic>>>uplink"}]}';
 
+print_r(json_decode($json, true));
+
+trigger_error('test error happen');
 // $app = new XRun();
 
 // $app->stats();

@@ -6,7 +6,7 @@ class DashboardController
 {
     public function __construct()
     {
-        check_login();
+        checkLogin();
     }
 
     public function dashboard() {
@@ -15,7 +15,7 @@ class DashboardController
     }
 
     public function status() {
-        resp_success([
+        respSuccess([
             'cpu' => 23,
             'disk' => [
                 'current' => 20,

@@ -6,7 +6,7 @@ class InboundController
 {
     public function __construct()
     {
-        check_login();
+        checkLogin();
     }
 
     public function index() {
@@ -14,7 +14,7 @@ class InboundController
     }
 
     public function list() {
-        resp_success([
+        respSuccess([
             [
                 "id" => 1,
                 "up" => 0,

@@ -8,7 +8,7 @@ class XRun
 
     public function stats() {
         $commandLine = sprintf(
-            '%s api stats -s 127.0.0.1:%s -format json',
+            '%s api stats -server 127.0.0.1:%s -json',
             self::V2RAY_PATH,
             self::V2RAY_PORT,
         );

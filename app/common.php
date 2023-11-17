@@ -20,14 +20,14 @@ function e($html) {
     echo $html;
 }
 
-function asset_url() {
+function assetUrl() {
     return '/assets/';
 }
-function base_url() {
+function baseUrl() {
     return '/';
 }
 
-function storage_path() {
+function storagePath() {
    return __DIR__ . '/../Storage/';
 }
 
@@ -43,32 +43,32 @@ function session($key, $value=null) {
     $_SESSION[$key] = $value;
 }
 
-function session_flush() {
+function sessionFlush() {
     session_unset();
 }
 
-function resp_json($data) {
+function respJson($data) {
     header('Content-Type: application/json');
     echo json_encode($data);
     die();
 }
 
-function resp_success($data=null) {
-   resp_json([
+function respSuccess($data=null) {
+   respJson([
        'success' => 1,
        'msg' => '操作成功',
        'obj' => $data ?: new \stdClass()
    ]);
 }
-function resp_fail($message, $data=[]) {
-    resp_json([
+function respFail($message, $data=[]) {
+    respJson([
         'success' => 0,
         'msg' => $message,
         'obj' => $data ?: new \stdClass()
     ]);
 }
 
-function render_env($key) {
+function renderEnv($key) {
     return TemplateRender::get($key);
 }
 
@@ -80,24 +80,24 @@ function render($path, $env = []) {
     include TEMP_PATH . $path;
 }
 
-function auth_login($user) {
+function authLogin($user) {
     session('auth_user', $user);
 }
 function auth_user() {
     return session('auth_user') ?? null;
 }
 
-function hash_make($password) {
+function hashMake($password) {
     return password_hash($password, PASSWORD_BCRYPT, [
         'cost' => 12
     ]);
 }
 
-function hash_verify($password, $hash) {
+function hashVerify($password, $hash) {
     return password_verify($password, $hash);
 }
 
-function check_login() {
+function checkLogin() {
    $user = auth_user();
    if (!$user) {
        redirect('/login');
@@ -113,7 +113,7 @@ function action($callArray) {
 }
 
 function initXui() {
-    $lockFile =  storage_path() . 'xui.lock';
+    $lockFile =  storagePath() . 'xui.lock';
 
     if (file_exists($lockFile)) {
         return;
@@ -124,7 +124,7 @@ function initXui() {
     // add default user
     DB::instance()->insert(
         "insert into user (username, password) values (?, ?)",
-        ['admin', hash_make(ADMIN_PASSWORD)]
+        ['admin', hashMake(ADMIN_PASSWORD)]
     );
 
     DB::instance()->exec(<<<'EOF'
@@ -148,4 +148,23 @@ EOF
 );
 
     file_put_contents($lockFile, '');
+}
+
+function registerExceptionHandler() {
+    set_error_handler(function ($errno, $errStr, $errFile, $errLine) {
+        if (!(error_reporting() & $errno)) {
+            return false;
+        }
+        $errStr = htmlspecialchars($errStr);
+
+        throw new \ErrorException($errStr, $errno, 1, $errFile, $errLine);
+    });
+
+    set_exception_handler(function (Throwable $exp) {
+        file_put_contents(
+            __DIR__ . '/../Storage/error.log',
+            sprintf("%s: %s\n", date('Y-m-d H:i:s'), $exp->__toString()),
+            FILE_APPEND
+        );
+    });
 }
