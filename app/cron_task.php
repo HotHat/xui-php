@@ -9,8 +9,29 @@ require "common.php";
 // init
 initXui();
 
-$data = DB::instance()->query('SELECT * FROM task');
-var_dump($data);
+$tasks = DB::instance()->query('SELECT * FROM task ORDER BY rowid ASC');
+
+$x = new XRun();
+
+foreach ($tasks as $task) {
+    switch ($task['type']) {
+        case 'add': {
+            $inbound = json_decode($task['inbound'], true);
+            $tag = $inbound['tag'];
+            $x->createConfig($tag, $tag['inbound']);
+        } break;
+        case 'modify': {
+            $inbound = json_decode($task['inbound'], true);
+            $tag = $inbound['tag'];
+            $x->modifyConfig($tag, $tag['inbound']);
+        } break;
+        case 'remove': {
+            $inbound = json_decode($task['inbound'], true);
+            $tag = $inbound['tag'];
+            $x->removeConfig($tag);
+        }
+    }
+}
 
 /*
 // init tables
