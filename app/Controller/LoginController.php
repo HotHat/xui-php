@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Database\DB;
+
 class LoginController
 {
     public function login() {
@@ -13,7 +15,7 @@ class LoginController
     public function submit() {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
-        $user = \DB::instance()->fetchOne('select rowid as id, * from user where username=?', [$username]);
+        $user = DB::instance()->fetchOne('select rowid as id, * from user where username=?', [$username]);
 
         if (empty($user)) {
             respFail('登录失败');

@@ -1,5 +1,5 @@
 <a-layout-sider id="sider" collapsible breakpoint="md" collapsed-width="0">
-    <a-menu theme="dark" mode="inline" :selected-keys="['{{ .request_uri }}']"
+    <a-menu theme="dark" mode="inline" :selected-keys="['<?php echo renderEnv('request_uri'); ?>']"
             @click="({key}) => key.startsWith('http') ? window.open(key) : location.href = key">
         <?php render("xui/menu_item.php"); ?>
     </a-menu>
@@ -10,7 +10,7 @@
     <div class="drawer-handle" @click="siderDrawer.change()" slot="handle">
         <a-icon :type="siderDrawer.visible ? 'close' : 'menu-fold'"></a-icon>
     </div>
-    <a-menu theme="light" mode="inline" :selected-keys="['{{ .request_uri }}']"
+    <a-menu theme="light" mode="inline" :selected-keys="['<?php echo renderEnv('request_uri'); ?>']"
         @click="({key}) => key.startsWith('http') ? window.open(key) : location.href = key">
         <?php render("xui/menu_item.php"); ?>
     </a-menu>

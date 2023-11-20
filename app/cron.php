@@ -1,18 +1,43 @@
 <?php declare(strict_types=1);
+
+use App\Database\DB;
+
 if (PHP_SAPI !== 'cli') { die(); }
 
 require "common.php";
-require "Command/XRun.php";
 
+print_r(shell_exec('free'));
+
+/*
 // init tables
 initXui();
-registerExceptionHandler();
 
-$json = '{"stat":[{"name":"inbound>>>inbound-7532>>>traffic>>>downlink"},{"name":"inbound>>>tcp>>>traffic>>>uplink"},{"name":"inbound>>>tcp>>>traffic>>>downlink"},{"name":"inbound>>>api>>>traffic>>>uplink","value":"3174"},{"name":"inbound>>>api>>>traffic>>>downlink","value":"2267"},{"name":"user>>>vless001@33448899.com>>>traffic>>>uplink","value":"6250586"},{"name":"user>>>vless001@33448899.com>>>traffic>>>downlink","value":"1686444639"},{"name":"inbound>>>inbound-7532>>>traffic>>>uplink"}]}';
+$app = new XRun();
 
-print_r(json_decode($json, true));
+$data = $app->stats();
 
-trigger_error('test error happen');
+$js = json_decode($data, true);
+// print_r($js);
+
+foreach ($js['stat'] as $it) {
+    [$type, $user, $traffic, $direct] = explode('>>>', $it['name']);
+
+    if (preg_match('/inbound-(\d)+/', $user, $matches)) {
+        var_dump($it);
+
+        if ($direct === 'uplink') {
+            // save to db
+
+        } else if ($direct === 'uplink') {
+            // save to db
+        }
+    }
+
+}
+*/
+// DB::instance()->update('delete from inbound where rowid=8');
+
+// echo (include __DIR__ . '/../template/login.php');
 // $app = new XRun();
 
 // $app->stats();

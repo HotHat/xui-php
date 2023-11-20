@@ -1,5 +1,6 @@
 <?php
-require "SqliteDB.php";
+namespace App\Database;
+
 class DB
 {
     private static $instance;

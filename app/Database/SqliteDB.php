@@ -1,10 +1,13 @@
 <?php
+
+namespace App\Database;
+
 class SqliteDB {
     const KEY = 'Noreh282oE';
     private $db;
     public function __construct($path, $dbname)
     {
-        $this->db = new SQLite3(
+        $this->db = new \SQLite3(
             $path . $dbname,
             SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE,
             self::KEY
@@ -46,10 +49,11 @@ class SqliteDB {
         return $this->db->lastInsertRowID();
     }
 
-    public function update($sql, $bind) {
+    public function update($sql, $bind=[]) {
+
         $stmt = $this->db->prepare($sql);
         foreach ($bind as $key => $value) {
-            $stmt->bindValue($key+1, $value, SQLITE3_INTEGER);
+            $stmt->bindValue($key+1, $value );
         }
         $stmt->execute();
 

@@ -10,31 +10,79 @@ class DashboardController
     }
 
     public function dashboard() {
-
+        // $top = shell_exec('cat /proc/uptime');
+        // var_dump($top);
+        // $this->getDiskUsage();
+        // die();
         render('xui/index.php');
     }
 
-    public function status() {
-        respSuccess([
-            'cpu' => 23,
-            'disk' => [
-                'current' => 20,
-                'total' => 32
-            ],
-            'loads' => [2.23, 20.20, 283.],
+    private function getCpuUsage(){
+        $load = sys_getloadavg();
+        return $load;
+    }
+
+    private function getDiskUsage() {
+        $data = shell_exec('df');
+        $d = explode("\n", $data);
+        $l = preg_split('/\W+/', $d[1]);
+        return [
+            'used' => $l[2],
+            'total' => $l[3]
+        ];
+    }
+
+    private function getMemoryUsage(){
+        $free = shell_exec('free');
+        $free = (string)trim($free);
+        $free_arr = explode("\n", $free);
+
+        $mem = explode(" ", $free_arr[1]);
+        $mem = array_filter($mem);
+        $mem = array_merge($mem);
+
+        $swap = explode(" ", $free_arr[2]);
+        $swap = array_filter($swap);
+        $swap = array_merge($swap);
+
+        return [
             'mem' => [
-                'current' => 58,
-                'total' => 60
+                'current' => $mem[2],
+                'total' => $mem[1],
             ],
+            'swap'=>[
+                'current' => $swap[2],
+                'total' => $swap[1],
+            ]
+        ];
+    }
+
+    public function getUptime() {
+        $data = shell_exec('cat /proc/uptime');
+        $d = explode(' ', $data);
+        return intval($d[0]);
+    }
+    public function status() {
+        $sw = $this->getMemoryUsage();
+        $cpu = $this->getCpuUsage();
+        $disk = $this->getDiskUsage();
+
+        respSuccess([
+            'cpu' => $cpu[0],
+            'disk' => [
+                'current' => $disk['used'],
+                'total' => $disk['total']
+            ],
+            'loads' => $cpu,
+
+            'mem' => $sw['mem'],
+            'swap' => $sw['swap'],
+
             'netIO' => 42,
             'netTraffic' => 2888,
-            'swap' => [
-                'current' => 1024 * 100,
-                'total' => 1024*1024
-            ],
             'tcpCount' => 283,
             'udpCount' => 28388,
-            'uptime' => 8882,
+            'uptime' => $this->getUptime(),
             'xray' => [
                 'state' => 'running'
             ]

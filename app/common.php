@@ -1,4 +1,7 @@
 <?php declare(strict_types=1);
+
+use App\Database\DB;
+
 require "config.php";
 require "Database/DB.php";
 
@@ -55,8 +58,8 @@ function respJson($data) {
 
 function respSuccess($data=null) {
    respJson([
-       'success' => 1,
-       'msg' => '操作成功',
+       'success' => true,
+       'msg' => '',
        'obj' => $data ?: new \stdClass()
    ]);
 }
@@ -113,6 +116,9 @@ function action($callArray) {
 }
 
 function initXui() {
+    registerExceptionHandler();
+    registerAutoload();
+
     $lockFile =  storagePath() . 'xui.lock';
 
     if (file_exists($lockFile)) {
@@ -129,10 +135,9 @@ function initXui() {
 
     DB::instance()->exec(<<<'EOF'
 CREATE table inbound (
-   uid integer,
-   up integer,
-   down integer,
-   total integer,
+   up NUMERIC,
+   down NUMERIC,
+   total NUMERIC,
    remark char(50),
    enable integer,
    due_time char(30),
@@ -166,5 +171,22 @@ function registerExceptionHandler() {
             sprintf("%s: %s\n", date('Y-m-d H:i:s'), $exp->__toString()),
             FILE_APPEND
         );
+    });
+}
+
+function registerAutoload() {
+    spl_autoload_register(function ($class) {
+        $class = str_replace('\\', '/', $class);
+        $class = preg_replace('/App\/(Controller|Database|Command)\//', '', $class);
+
+        if (file_exists(__DIR__ . '/Controller/' . $class . '.php')) {
+            include __DIR__ . '/Controller/' . $class . '.php';
+        }
+        if (file_exists(__DIR__ . '/Database/' . $class . '.php')) {
+            include __DIR__ . '/Database/' . $class . '.php';
+        }
+        if (file_exists(__DIR__ . '/Command/' . $class . '.php')) {
+            include __DIR__ . '/Command/' . $class . '.php';
+        }
     });
 }
