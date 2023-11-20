@@ -83,6 +83,18 @@ function render($path, $env = []) {
     include TEMP_PATH . $path;
 }
 
+function renderString($filename) {
+    $path = TEMP_PATH . $filename;
+    if (is_file($path)) {
+        ob_start();
+        include $path;
+        $contents = ob_get_contents();
+        ob_end_clean();
+        return $contents;
+    }
+    return false;
+}
+
 function authLogin($user) {
     session('auth_user', $user);
 }
@@ -131,6 +143,11 @@ function initXui() {
     DB::instance()->insert(
         "insert into user (username, password) values (?, ?)",
         ['admin', hashMake(ADMIN_PASSWORD)]
+    );
+
+    // add/remove/modify config task
+    DB::instance()->exec(
+        "CREATE TABLE task (type CHAR(20), inbound text)",
     );
 
     DB::instance()->exec(<<<'EOF'

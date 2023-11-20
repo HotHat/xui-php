@@ -6,11 +6,14 @@ if (PHP_SAPI !== 'cli') { die(); }
 
 require "common.php";
 
-print_r(shell_exec('free'));
+// init
+initXui();
+
+$data = DB::instance()->query('SELECT * FROM task');
+var_dump($data);
 
 /*
 // init tables
-initXui();
 
 $app = new XRun();
 

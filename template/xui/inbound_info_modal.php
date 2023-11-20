@@ -1,6 +1,7 @@
+<?php  render('xui/component/inbound_info.php'); ?>
 <a-modal id="inbound-info-modal" v-model="infoModal.visible" title="详细信息" @ok="infoModal.ok"
          :closable="true" :mask-closable="true"
-         ok-text="复制链接" cancel-text='{{ i18n "close" }}' :ok-button-props="infoModal.okBtnPros">
+         ok-text="复制链接" cancel-text='关闭' :ok-button-props="infoModal.okBtnPros">
     <inbound-info :db-inbound="dbInbound" :inbound="inbound"></inbound-info>
 </a-modal>
 <script>

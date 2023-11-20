@@ -33,6 +33,6 @@
     </template>
 
     <template v-if="dbInbound.isVMess || dbInbound.isVLess || dbInbound.isTrojan || dbInbound.isSS">
-        <?php render('xui/component/inbound_info_stream'); ?>
+        <?php render('xui/component/inbound_info_stream.php'); ?>
     </template>
 </div>

@@ -17,14 +17,45 @@ class XRun
     }
 
     public function addInbound($config) {
-        $this->runCommand('add', $config);
+        $this->addOrDelInbound('add', $config);
     }
 
     public function delInbound($config) {
-        $this->runCommand('remove', $config);
+        $this->addOrDelInbound('remove', $config);
     }
 
-    private function runCommand($type, $config) {
+    public function createConfig($name, $config) {
+        $path = self::V2RAY_CONFIG_DIR . $name;
+        if (file_exists($path)) {
+            return;
+        }
+        file_put_contents($path, $config);
+        $this->addInbound($path);
+    }
+
+    public function removeConfig($name) {
+        $path = self::V2RAY_CONFIG_DIR . $name;
+        if (file_exists($path)) {
+            $this->delInbound($path);
+            unlink($path);
+        }
+    }
+    public function modifyConfig($name, $config) {
+        $path = self::V2RAY_CONFIG_DIR . $name;
+        if (file_exists($path)) {
+            $this->delInbound($path);
+
+            file_put_contents($path, $config);
+
+            $this->addInbound($path);
+        }
+    }
+
+    public function restartX() {
+       shell_exec('service v2ray restart');
+    }
+
+    private function addOrDelInbound($type, $config) {
         $filePath = self::V2RAY_CONFIG_DIR . $config;
         if (!file_exists($filePath)) {
             throw new \Exception($filePath. ' file not exist');
