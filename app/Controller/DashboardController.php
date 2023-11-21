@@ -54,10 +54,10 @@ class DashboardController
         $content = file_get_contents('/proc/meminfo');
         $lines = explode("\n", $content);
         $m = [];
-        print_r($lines);
+        // print_r($lines);
         foreach ($lines as $line) {
             $blk = preg_split('/\s+/', $line);
-            print_r($blk);
+            // print_r($blk);
             switch ($blk[0]) {
                 case 'MemTotal:': {
                     $m['mem']['total'] = $blk[1] * 1024;
