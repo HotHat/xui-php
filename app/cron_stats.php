@@ -19,19 +19,22 @@ $js = json_decode($data, true);
 // print_r($js);
 
 foreach ($js['stat'] as $it) {
-    [$type, $user, $traffic, $direct] = explode('>>>', $it['name']);
+    [$type, $tag, $traffic, $direct] = explode('>>>', $it['name']);
 
-    if (preg_match('/inbound-(\d)+/', $user, $matches)) {
+    if (preg_match('/inbound-(\d)+/', $tag, $matches)) {
         var_dump($it);
+        $port = intval($matches[1]);
+        $val = intval($it['value'] ?? 0);
 
+        DB::beginTransaction();
         if ($direct === 'uplink') {
-            // save to db
-
-        } else if ($direct === 'uplink') {
-            // save to db
+            DB::instance()->update('update inbound set up=up+? where tag=?', [$val, $tag]);
+        } else if ($direct === 'downlink') {
+            DB::instance()->update('update inbound set down=down+? where tag=?', [$val, $tag]);
         }
+        DB::instance()->update('update inbound set total=total+? where tag=?', [$val, $tag]);
+        DB::commit();
     }
-
 }
 
 // DB::instance()->update('delete from inbound where rowid=8');

@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
+use App\Config;
 use App\Database\DB;
 
-require "config.php";
+require "Config.php";
 
 const TEMP_PATH = __DIR__ . '/../template/';
 
@@ -141,7 +142,7 @@ function initXui() {
     // add default user
     DB::instance()->insert(
         "insert into user (username, password) values (?, ?)",
-        ['admin', hashMake(ADMIN_PASSWORD)]
+        ['admin', hashMake(Config::ADMIN_PASSWORD->value)]
     );
 
     // add/remove/modify config task
@@ -167,6 +168,8 @@ CREATE table inbound (
 ) 
 EOF
 );
+    // REPLACE INTO positions (title, min_salary) VALUES('DBA', 170000);
+    // DB::instance()->exec('CREATE UNIQUE INDEX idx_tag ON inbound (tag)');
 
     file_put_contents($lockFile, '');
 }
@@ -193,16 +196,10 @@ function registerExceptionHandler() {
 function registerAutoload() {
     spl_autoload_register(function ($class) {
         $class = str_replace('\\', '/', $class);
-        $class = preg_replace('/App\/(Controller|Database|Command)\//', '', $class);
+        $class = str_replace('App', 'app', $class);
 
-        if (file_exists(__DIR__ . '/Controller/' . $class . '.php')) {
-            include __DIR__ . '/Controller/' . $class . '.php';
-        }
-        if (file_exists(__DIR__ . '/Database/' . $class . '.php')) {
-            include __DIR__ . '/Database/' . $class . '.php';
-        }
-        if (file_exists(__DIR__ . '/Command/' . $class . '.php')) {
-            include __DIR__ . '/Command/' . $class . '.php';
+        if (file_exists(__DIR__ . '/../' . $class . '.php')) {
+            include __DIR__ . '/../' . $class . '.php';
         }
     });
 }

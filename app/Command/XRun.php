@@ -1,16 +1,16 @@
 <?php
 
+namespace App\Command;
+
+use App\Config;
+
 class XRun
 {
-    const V2RAY_PATH = '/usr/local/bin/v2ray';
-    const V2RAY_CONFIG_DIR = '/usr/local/etc/v2ray/';
-    const V2RAY_PORT = 12385;
-
     public function stats() {
         $commandLine = sprintf(
             '%s api stats -server 127.0.0.1:%s -json',
-            self::V2RAY_PATH,
-            self::V2RAY_PORT,
+            Config::V2RAY_PATH->value,
+            Config::V2RAY_PORT->value,
         );
 
         return $this->shell($commandLine);
@@ -25,32 +25,32 @@ class XRun
     }
 
     public function createConfig($name, $config) {
-        $path = self::V2RAY_CONFIG_DIR . $name;
+        $path = Config::V2RAY_CONFIG_DIR->value . $name;
         if (file_exists($path)) {
             return;
         }
         file_put_contents($path, $config);
         // TODO:
-        // $this->addInbound($path);
+        $this->addInbound($path);
     }
 
     public function removeConfig($name) {
-        $path = self::V2RAY_CONFIG_DIR . $name;
+        $path = Config::V2RAY_CONFIG_DIR->value . $name;
         if (file_exists($path)) {
             // TODO:
-            // $this->delInbound($path);
+            $this->delInbound($path);
             unlink($path);
         }
     }
     public function modifyConfig($name, $config) {
-        $path = self::V2RAY_CONFIG_DIR . $name;
+        $path = Config::V2RAY_CONFIG_DIR->value . $name;
         if (file_exists($path)) {
             // TODO:
-            // $this->delInbound($path);
+            $this->delInbound($path);
 
             file_put_contents($path, $config);
 
-            // $this->addInbound($path);
+            $this->addInbound($path);
         }
     }
 
@@ -59,7 +59,7 @@ class XRun
     }
 
     private function addOrDelInbound($type, $config) {
-        $filePath = self::V2RAY_CONFIG_DIR . $config;
+        $filePath = Config::V2RAY_CONFIG_DIR->value . $config;
         if (!file_exists($filePath)) {
             throw new \Exception($filePath. ' file not exist');
         }
@@ -73,9 +73,9 @@ class XRun
 
         $commandLine = sprintf(
             '%s api %s -s 127.0.0.1:%s -format json %s',
-            self::V2RAY_PATH,
+            Config::V2RAY_PATH->value,
             $command,
-            self::V2RAY_PORT,
+            Config::V2RAY_PORT->value,
             $filePath
         );
 
