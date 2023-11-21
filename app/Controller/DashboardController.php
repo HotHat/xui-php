@@ -12,8 +12,8 @@ class DashboardController
     public function dashboard() {
         // $top = shell_exec('cat /proc/uptime');
         // var_dump($top);
-        print_r($this->getMemoryUsage());
-        die();
+        // print_r($this->getMemoryUsage());
+        // die();
         render('xui/index.php');
     }
 
