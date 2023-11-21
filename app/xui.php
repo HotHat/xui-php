@@ -16,12 +16,6 @@ session_start();
 $reqUri = $_SERVER['REQUEST_URI'];
 $parseUri = parse_url($reqUri);
 $uri = $parseUri['path'];
-if (Config::PROXY_PREFIX->value !== '') {
-    $vl = strlen(Config::PROXY_PREFIX->value);
-    if (substr($uri, 0, $vl) == Config::PROXY_PREFIX->value) {
-        $uri = substr($uri, $vl);
-    }
-}
 
 $router = [];
 

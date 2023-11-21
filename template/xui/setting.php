@@ -111,7 +111,7 @@
             },
             async getAllSetting() {
                 this.loading(true);
-                const msg = await HttpUtil.post("/xui/setting/all");
+                const msg = await HttpUtil.post(<?php e(url("/xui/setting/all")) ?>);
                 this.loading(false);
                 if (msg.success) {
                     this.oldAllSetting = new AllSetting(msg.obj);
@@ -121,7 +121,7 @@
             },
             async updateAllSetting() {
                 this.loading(true);
-                const msg = await HttpUtil.post("/xui/setting/update", this.allSetting);
+                const msg = await HttpUtil.post(<?php e(url("/xui/setting/update")) ?>, this.allSetting);
                 this.loading(false);
                 if (msg.success) {
                     await this.getAllSetting();
@@ -129,7 +129,7 @@
             },
             async updateUser() {
                 this.loading(true);
-                const msg = await HttpUtil.post("/xui/setting/updateUser", this.user);
+                const msg = await HttpUtil.post(<?php e(url("/xui/setting/updateUser")) ?>, this.user);
                 this.loading(false);
                 if (msg.success) {
                     this.user = {};
@@ -147,7 +147,7 @@
                     });
                 });
                 this.loading(true);
-                const msg = await HttpUtil.post("/xui/setting/restartPanel");
+                const msg = await HttpUtil.post(<?php e(url("/xui/setting/restartPanel")) ?>);
                 this.loading(false);
                 if (msg.success) {
                     this.loading(true);

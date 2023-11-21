@@ -188,7 +188,7 @@
             },
             async getDBInbounds() {
                 this.loading();
-                const msg = await HttpUtil.post('/xui/inbound/list');
+                const msg = await HttpUtil.post(<?php e(url('/xui/inbound/list')) ?>);
                 this.loading(false);
                 if (!msg.success) {
                     return;
@@ -324,7 +324,7 @@
                 infoModal.show(dbInbound);
             },
             switchEnable(dbInbound) {
-                this.submit(`/xui/inbound/update?id=${dbInbound.id}`, dbInbound);
+                this.submit(<?php e(url('/xui/inbound/update')) ?> + `?id=${dbInbound.id}`, dbInbound);
             },
             async submit(url, data, modal) {
                 const msg = await HttpUtil.postWithModal(url, data, modal);
