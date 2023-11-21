@@ -12,7 +12,7 @@ class DashboardController
     public function dashboard() {
         // $top = shell_exec('cat /proc/uptime');
         // var_dump($top);
-        // print_r($this->getTraffic());
+        // print_r($this->getDiskUsage());
         // die();
         render('xui/index.php');
     }
@@ -25,10 +25,19 @@ class DashboardController
     private function getDiskUsage() {
         $data = shell_exec('df');
         $d = explode("\n", $data);
-        $l = preg_split('/\W+/', $d[1]);
+
+        foreach ($d as $line) {
+            $l = preg_split('/\s+/', $line);
+            if ($l[5] == '/') {
+                return [
+                    'used' => $l[2] * 1024,
+                    'total' => $l[3] * 1024
+                ];
+            }
+        }
         return [
-            'used' => $l[2],
-            'total' => $l[3]
+            'used' => 0,
+            'total' => 0
         ];
     }
 
@@ -56,12 +65,12 @@ class DashboardController
 
         return [
             'mem' => [
-                'current' => $mem[2],
-                'total' => $mem[1],
+                'current' => $mem[2] * 1024,
+                'total' => $mem[1] * 1024,
             ],
             'swap'=>[
-                'current' => $swap[2],
-                'total' => $swap[1],
+                'current' => $swap[2] ? ($swap[2] * 1024) : 0,
+                'total' => $swap[1] ? ($swap[1] * 1024) : 0,
             ]
         ];
     }
