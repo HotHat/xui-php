@@ -12,8 +12,8 @@ class DashboardController
     public function dashboard() {
         // $top = shell_exec('cat /proc/uptime');
         // var_dump($top);
-        // print_r($this->getTraffic());
-        // die();
+        print_r($this->getMemoryUsage());
+        die();
         render('xui/index.php');
     }
 
@@ -31,7 +31,7 @@ class DashboardController
             if ($l[5] == '/') {
                 return [
                     'used' => $l[2] * 1024,
-                    'total' => $l[3] * 1024
+                    'total' => $l[1] * 1024
                 ];
             }
         }
@@ -54,24 +54,34 @@ class DashboardController
         $content = file_get_contents('/proc/meminfo');
         $lines = explode("\n", $content);
         $m = [];
+        print_r($lines);
         foreach ($lines as $line) {
-            if (preg_match('/MemTotal:(\s+)(\d+)/', $line, $matches)) {
-                $m['mem']['total'] = $matches[2] * 1024;
+            $blk = preg_split('/\s+/', $line);
+            print_r($blk);
+            switch ($blk[0]) {
+                case 'MemTotal:': {
+                    $m['mem']['total'] = $blk[1] * 1024;
+                }break;
+                case 'MemFree:': {
+                    $m['mem']['free'] = $blk[1] * 1024;
+                }break;
+                case 'Buffers:': {
+                    $m['mem']['buffer'] = $blk[1] * 1024;
+                }break;
+                case 'Cached:': {
+                    $m['mem']['cached'] = $blk[1] * 1024;
+                }break;
+                case 'SwapTotal:': {
+                    $m['swap']['total'] = $blk[1] * 1024;
+                }break;
+                case 'SwapFree:': {
+                    $m['swap']['free'] = $blk[1] * 1024;
+                }break;
             }
-            if (preg_match('/MemFree:(\s+)(\d+)/', $line, $matches)) {
-                $m['mem']['free'] = $matches[2] * 1024;
-            }
-            if (preg_match('/SwapTotal:(\s+)(\d+)/', $line, $matches)) {
-                $m['swap']['total'] = $matches[2] * 1024;
-            }
-            if (preg_match('/SwapFree:(\s+)(\d+)/', $line, $matches)) {
-                $m['swap']['free'] = $matches[2] * 1024;
-            }
-
         }
         return [
             'mem' => [
-                'current' => $m['mem']['total'] - $m['mem']['free'],
+                'current' => $m['mem']['total'] - $m['mem']['free'] - $m['mem']['buffer'] -$m['mem']['cached'],
                 'total' => $m['mem']['total'],
             ],
             'swap'=>[
