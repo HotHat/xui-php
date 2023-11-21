@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use App\Config;
 use App\Controller\DashboardController;
 use App\Controller\InboundController;
 use App\Controller\LoginController;
@@ -12,8 +13,16 @@ initXui();
 // start session
 session_start();
 
-$uri = $_SERVER['REQUEST_URI'];
-$parseUrl = parse_url($uri);
+$reqUri = $_SERVER['REQUEST_URI'];
+$parseUri = parse_url($reqUri);
+$uri = $parseUri['path'];
+if (Config::PROXY_PREFIX->value !== '') {
+    $vl = strlen(Config::PROXY_PREFIX->value);
+    if (substr($uri, 0, $vl) == Config::PROXY_PREFIX->value) {
+        $uri = substr($uri, $vl);
+    }
+}
+
 $router = [];
 
 $router['/login'] = action([LoginController::class, 'login']);
@@ -38,9 +47,8 @@ $router['/xui/setting/updateUser'] = action([SettingController::class, 'updateUs
 $router['/server/status'] = action([DashboardController::class, 'status']);
 
 
-
-TemplateRender::add('request_uri', $parseUrl['path']);
-if (isset($router[$parseUrl['path']])) {
-    $action = $router[$parseUrl['path']];
+TemplateRender::add('request_uri', $uri);
+if (isset($router[$uri])) {
+    $action = $router[$uri];
     $action();
 }

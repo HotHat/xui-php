@@ -8,4 +8,6 @@ enum Config: string
     case V2RAY_CONFIG_DIR = '/usr/local/etc/v2ray/';
     case V2RAY_PORT = '12385';
     case ADMIN_PASSWORD='TeTzb23@#*';
+
+    case PROXY_PREFIX = '/xui';
 }
