@@ -23,6 +23,10 @@ function e($html) {
     echo $html;
 }
 
+function url($uri) {
+    return '\'' . Config::APP_URL->value . '/' . ltrim($uri, '/') . '\'';
+}
+
 function assetUrl() {
     return '/assets/';
 }

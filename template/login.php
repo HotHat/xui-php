@@ -77,7 +77,7 @@
         methods: {
             async login() {
                 this.loading = true;
-                const msg = await HttpUtil.post('/login/submit', this.user);
+                const msg = await HttpUtil.post(<?php e(url('/login/submit')) ?>, this.user);
                 this.loading = false;
                 if (msg.success) {
                     location.href = basePath + 'xui/';
