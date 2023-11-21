@@ -12,7 +12,7 @@ class DashboardController
     public function dashboard() {
         // $top = shell_exec('cat /proc/uptime');
         // var_dump($top);
-        // print_r($this->getMemoryUsage());
+        // print_r($this->getCpuPercent());
         // die();
         render('xui/index.php');
     }
@@ -20,6 +20,33 @@ class DashboardController
     private function getCpuUsage(){
         $load = sys_getloadavg();
         return $load;
+    }
+
+    private function getCpuPercent() {
+        $s1 = $this->cpuStat();
+        sleep(2);
+        $s2 = $this->cpuStat();
+        $idle = $s2['idle'] - $s1['idle'];
+        // var_dump($idle);
+        $sum = $s2['total'] - $s1['total'];
+        // var_dump($sum);
+        return (1-($idle / $sum)) * 100;
+    }
+
+    private function cpuStat() {
+        $content = file_get_contents('/proc/stat');
+        $lines = explode("\n", $content);
+        // print_r($lines);
+        $st = $lines[0];
+        $blk = preg_split('/\s+/', $st);
+        // print_r($blk);
+        // array_shift();
+        // print_r($blk);
+        $sum = array_sum([$blk[1], $blk[2], $blk[3], $blk[4], $blk[5], $blk[6], $blk[7]]);
+        return [
+            'total' => $sum,
+            'idle' => $blk[4]
+        ];
     }
 
     private function getDiskUsage() {
@@ -135,7 +162,7 @@ class DashboardController
         $uptime = $this->getUptime();
 
         respSuccess([
-            'cpu' => $cpu[0],
+            'cpu' => $this->getCpuPercent(),
             'disk' => [
                 'current' => $disk['used'],
                 'total' => $disk['total']
