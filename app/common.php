@@ -3,7 +3,6 @@
 use App\Database\DB;
 
 require "config.php";
-require "Database/DB.php";
 
 const TEMP_PATH = __DIR__ . '/../template/';
 
@@ -41,7 +40,7 @@ function redirect($url) {
 
 function session($key, $value=null) {
     if (!$value) {
-        return $_SESSION[$key];
+        return $_SESSION[$key] ?? null;
     }
     $_SESSION[$key] = $value;
 }
@@ -56,11 +55,11 @@ function respJson($data) {
     die();
 }
 
-function respSuccess($data=null) {
+function respSuccess($data=null, $isArray=false) {
    respJson([
        'success' => true,
        'msg' => '',
-       'obj' => $data ?: new \stdClass()
+       'obj' => $data ?: ($isArray ? [] : new \stdClass())
    ]);
 }
 function respFail($message, $data=[]) {
@@ -99,7 +98,7 @@ function authLogin($user) {
     session('auth_user', $user);
 }
 function auth_user() {
-    return session('auth_user') ?? null;
+    return session('auth_user');
 }
 
 function hashMake($password) {

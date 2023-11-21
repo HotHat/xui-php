@@ -30,24 +30,27 @@ class XRun
             return;
         }
         file_put_contents($path, $config);
-        $this->addInbound($path);
+        // TODO:
+        // $this->addInbound($path);
     }
 
     public function removeConfig($name) {
         $path = self::V2RAY_CONFIG_DIR . $name;
         if (file_exists($path)) {
-            $this->delInbound($path);
+            // TODO:
+            // $this->delInbound($path);
             unlink($path);
         }
     }
     public function modifyConfig($name, $config) {
         $path = self::V2RAY_CONFIG_DIR . $name;
         if (file_exists($path)) {
-            $this->delInbound($path);
+            // TODO:
+            // $this->delInbound($path);
 
             file_put_contents($path, $config);
 
-            $this->addInbound($path);
+            // $this->addInbound($path);
         }
     }
 

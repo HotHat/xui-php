@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-{{template "head" .}}
+<?php render("common/head.php"); ?>
 <style>
     @media (min-width: 769px) {
         .ant-layout-content {
@@ -26,7 +26,7 @@
 </style>
 <body>
 <a-layout id="app" v-cloak>
-    {{ template "commonSider" . }}
+    <?php render("xui/common_sider.php"); ?>
     <a-layout id="content-layout">
         <a-layout-content>
             <a-spin :spinning="spinning" :delay="500" tip="loading">
@@ -90,8 +90,8 @@
         </a-layout-content>
     </a-layout>
 </a-layout>
-{{template "js" .}}
-{{template "component/setting"}}
+<?php render('common/js.php'); ?>
+<?php render('xui/component/setting.php'); ?>
 <script>
 
     const app = new Vue({
@@ -133,6 +133,7 @@
                 this.loading(false);
                 if (msg.success) {
                     this.user = {};
+                    app.$message.success('修改成功')
                 }
             },
             async restartPanel() {

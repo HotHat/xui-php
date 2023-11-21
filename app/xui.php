@@ -3,6 +3,7 @@
 use App\Controller\DashboardController;
 use App\Controller\InboundController;
 use App\Controller\LoginController;
+use App\Controller\SettingController;
 
 require "common.php";
 
@@ -28,6 +29,11 @@ $router['/xui/inbound/list'] = action([InboundController::class, 'list']);
 $router['/xui/inbound/add'] = action([InboundController::class, 'add']);
 $router['/xui/inbound/update'] = action([InboundController::class, 'update']);
 $router['/xui/inbound/del'] = action([InboundController::class, 'del']);
+
+$router['/xui/setting'] = action([SettingController::class, 'index']);
+$router['/xui/setting/all'] = action([SettingController::class, 'all']);
+$router['/xui/setting/update'] = action([SettingController::class, 'update']);
+$router['/xui/setting/updateUser'] = action([SettingController::class, 'updateUser']);
 
 $router['/server/status'] = action([DashboardController::class, 'status']);
 
