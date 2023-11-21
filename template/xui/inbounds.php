@@ -188,7 +188,7 @@
             },
             async getDBInbounds() {
                 this.loading();
-                const msg = await HttpUtil.post(<?php e(url('/xui/inbound/list')) ?>);
+                const msg = await HttpUtil.post("<?php e(url('/xui/inbound/list')) ?>");
                 this.loading(false);
                 if (!msg.success) {
                     return;
@@ -273,7 +273,7 @@
                     streamSettings: inbound.stream.toString(),
                     sniffing: inbound.canSniffing() ? inbound.sniffing.toString() : '{}',
                 };
-                await this.submit('/xui/inbound/add', data, inModal);
+                await this.submit("<?php e(url('/xui/inbound/add')) ?>", data, inModal);
             },
             async updateInbound(inbound, dbInbound) {
                 const data = {
@@ -291,7 +291,7 @@
                     streamSettings: inbound.stream.toString(),
                     sniffing: inbound.canSniffing() ? inbound.sniffing.toString() : '{}',
                 };
-                await this.submit(`/xui/inbound/update?id=${dbInbound.id}`, data, inModal);
+                await this.submit("<?php e(url("/xui/inbound/update")) ?>" + `?id=${dbInbound.id}`, data, inModal);
             },
             resetTraffic(dbInbound) {
                 this.$confirm({
@@ -313,7 +313,7 @@
                     content: '确定要删除入站吗?',
                     okText: '删除',
                     cancelText: '取消',
-                    onOk: () => this.submit('/xui/inbound/del?id=' + dbInbound.id),
+                    onOk: () => this.submit("<?php e(url('/xui/inbound/del')) ?>" + `?id=${dbInbound.id}`),
                 });
             },
             showQrcode(dbInbound) {
@@ -324,7 +324,7 @@
                 infoModal.show(dbInbound);
             },
             switchEnable(dbInbound) {
-                this.submit(<?php e(url('/xui/inbound/update')) ?> + `?id=${dbInbound.id}`, dbInbound);
+                this.submit("<?php e(url('/xui/inbound/update')) ?>" + `?id=${dbInbound.id}`, dbInbound);
             },
             async submit(url, data, modal) {
                 const msg = await HttpUtil.postWithModal(url, data, modal);

@@ -285,7 +285,7 @@
                 this.loadingTip = tip;
             },
             async getStatus() {
-                const msg = await HttpUtil.post(<?php e(url('/server/status')) ?>);
+                const msg = await HttpUtil.post("<?php e(url('/server/status')) ?>");
                 if (msg.success) {
                     this.setStatus(msg.obj);
                 }
@@ -295,7 +295,7 @@
             },
             async openSelectV2rayVersion() {
                 this.loading(true);
-                const msg = await HttpUtil.post(<?php e(url('server/getXrayVersion')) ?>);
+                const msg = await HttpUtil.post("<?php e(url('server/getXrayVersion')) ?>");
                 this.loading(false);
                 if (!msg.success) {
                     return;

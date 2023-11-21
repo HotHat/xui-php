@@ -23,8 +23,8 @@ function e($html) {
     echo $html;
 }
 
-function url($uri) {
-    return '\'' . Config::APP_URL->value . '/' . ltrim($uri, '/') . '\'';
+function url($uri, $params=[]) {
+    return Config::APP_URL->value . '/' . ltrim($uri, '/') . '?' . http_build_query($params);
 }
 
 function assetUrl() {

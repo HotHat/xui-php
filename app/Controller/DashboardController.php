@@ -12,7 +12,7 @@ class DashboardController
     public function dashboard() {
         // $top = shell_exec('cat /proc/uptime');
         // var_dump($top);
-        // print_r($this->getDiskUsage());
+        // print_r($this->getTraffic());
         // die();
         render('xui/index.php');
     }
@@ -51,26 +51,32 @@ class DashboardController
     }
 
     private function getMemoryUsage(){
-        $free = shell_exec('free');
-        $free = (string)trim($free);
-        $free_arr = explode("\n", $free);
+        $content = file_get_contents('/proc/meminfo');
+        $lines = explode("\n", $content);
+        $m = [];
+        foreach ($lines as $line) {
+            if (preg_match('/MemTotal:(\s+)(\d+)/', $line, $matches)) {
+                $m['mem']['total'] = $matches[2] * 1024;
+            }
+            if (preg_match('/MemFree:(\s+)(\d+)/', $line, $matches)) {
+                $m['mem']['free'] = $matches[2] * 1024;
+            }
+            if (preg_match('/SwapTotal:(\s+)(\d+)/', $line, $matches)) {
+                $m['swap']['total'] = $matches[2] * 1024;
+            }
+            if (preg_match('/SwapFree:(\s+)(\d+)/', $line, $matches)) {
+                $m['swap']['free'] = $matches[2] * 1024;
+            }
 
-        $mem = explode(" ", $free_arr[1]);
-        $mem = array_filter($mem);
-        $mem = array_merge($mem);
-
-        $swap = explode(" ", $free_arr[2]);
-        $swap = array_filter($swap);
-        $swap = array_merge($swap);
-
+        }
         return [
             'mem' => [
-                'current' => $mem[2] * 1024,
-                'total' => $mem[1] * 1024,
+                'current' => $m['mem']['total'] - $m['mem']['free'],
+                'total' => $m['mem']['total'],
             ],
             'swap'=>[
-                'current' => $swap[2] ? ($swap[2] * 1024) : 0,
-                'total' => $swap[1] ? ($swap[1] * 1024) : 0,
+                'current' => $m['swap']['total'] - $m['swap']['free'],
+                'total' => $m['swap']['total'],
             ]
         ];
     }
@@ -92,22 +98,16 @@ class DashboardController
     }
 
     public function getTraffic() {
-        $data = shell_exec('ifconfig');
-        $lines = explode("\n", $data);
-
+        $content = file_get_contents('/proc/net/dev');
+        $lines = explode("\n", $content);
         $up = 0;
         $down = 0;
+        // print_r($lines);
         foreach ($lines as $line) {
-            if (preg_match('/RX packets/', $line, $match)) {
-                if (preg_match('/bytes (\d+)/', $line, $mat)) {
-                    $down += intval($mat[1]);
-                }
-            }
-
-            if (preg_match('/TX packets/', $line, $match)) {
-                if (preg_match('/bytes (\d+)/', $line, $mat)) {
-                    $up += intval($mat[1]);
-                }
+            $blocks = preg_split('/\s+/', $line);
+            if (count($blocks) == 18) {
+                $down += $blocks[2];
+                $up += $blocks[10];
             }
         }
 
@@ -115,37 +115,6 @@ class DashboardController
             'sent' => $up,
             'recv' => $down
         ];
-        /*
-        $data = shell_exec('ip -s link');
-        $lines = explode("\n", $data);
-
-        $upL = [];
-        $downL = [];
-        foreach ($lines as $k => $line) {
-            if (preg_match('/RX:/', $line, $match)) {
-                $downL[] = $k +1;
-            }
-
-            if (preg_match('/TX:/', $line, $match)) {
-                $upL[] = $k+1;
-            }
-        }
-
-        $sent = $recv = 0;
-        foreach ($upL as $k) {
-            $line = $lines[$k];
-            $arr = preg_split('/\s+/', $line);
-            $sent += intval($arr[1]);
-        }
-
-        foreach ($downL as $k) {
-            $line = $lines[$k];
-            $arr = preg_split('/\s+/', $line);
-            $recv += intval($arr[1]);
-        }
-
-
-        */
     }
     public function status() {
         $sw = $this->getMemoryUsage();
