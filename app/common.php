@@ -24,7 +24,8 @@ function e($html) {
 }
 
 function url($uri, $params=[]) {
-    return Config::APP_URL->value . '/' . ltrim($uri, '/') . '?' . http_build_query($params);
+    $query = http_build_query($params);
+    return Config::APP_URL->value . '/' . ltrim($uri, '/') . ($query ? ('?' . $query) : '');
 }
 
 function assetUrl() {

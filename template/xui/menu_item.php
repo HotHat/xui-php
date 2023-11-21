@@ -1,12 +1,12 @@
-<a-menu-item key="/xui/">
+<a-menu-item key="<?php e(url('/xui/')) ?>">
     <a-icon type="dashboard"></a-icon>
     <span>系统状态</span>
 </a-menu-item>
-<a-menu-item key="/xui/inbounds">
+<a-menu-item key="<?php e(url('/xui/inbounds')) ?>">
     <a-icon type="user"></a-icon>
     <span>入站列表</span>
 </a-menu-item>
-<a-menu-item key="/xui/setting">
+<a-menu-item key="<?php e(url('/xui/setting')) ?>">
     <a-icon type="setting"></a-icon>
     <span>面板设置</span>
 </a-menu-item>
@@ -24,7 +24,7 @@
         <span>Github</span>
     </a-menu-item>
 </a-sub-menu>
-<a-menu-item key="/logout">
+<a-menu-item key="<?php e(url('/logout')) ?>">
     <a-icon type="logout"></a-icon>
     <span>退出登录</span>
 </a-menu-item>
