@@ -135,13 +135,15 @@ class InboundController
     private function task($type, $data) {
         $config = [
             'inbounds' => [
-                'listen' => $data['listen'] ?? null,
-                'port' => $data['port'],
-                'protocol' => $data['protocol'],
-                'tag' => $data['tag'],
-                'settings' => json_decode($data['settings']),
-                'streamSettings' => json_decode($data['stream_setting']),
-                'sniffing' => !empty($data['sniffing']) ? json_decode($data['sniffing']) : null
+                [
+                    'listen' => $data['listen'] ?? null,
+                    'port' => $data['port'],
+                    'protocol' => $data['protocol'],
+                    'tag' => $data['tag'],
+                    'settings' => json_decode($data['settings']),
+                    'streamSettings' => json_decode($data['stream_setting']),
+                    'sniffing' => !empty($data['sniffing']) ? json_decode($data['sniffing']) : null
+                ]
             ]
         ];
         DB::instance()->insert('INSERT INTO task (type, inbound) VALUES (?, ?)', [$type, json_encode($config)]);
