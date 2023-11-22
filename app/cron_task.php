@@ -18,17 +18,17 @@ foreach ($tasks as $task) {
     switch ($task['type']) {
         case 'add': {
             $inbound = json_decode($task['inbound'], true);
-            $tag = $inbound['inbounds']['tag'];
+            $tag = $inbound['inbounds'][0]['tag'];
             $x->createConfig($tag, $task['inbound']);
         } break;
         case 'modify': {
             $inbound = json_decode($task['inbound'], true);
-            $tag = $inbound['inbounds']['tag'];
+            $tag = $inbound['inbounds'][0]['tag'];
             $x->modifyConfig($tag, $task['inbound']);
         } break;
         case 'remove': {
             $inbound = json_decode($task['inbound'], true);
-            $tag = $inbound['inbounds']['tag'];
+            $tag = $inbound['inbounds'][0]['tag'];
             $x->removeConfig($tag);
         }
     }

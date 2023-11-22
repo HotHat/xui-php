@@ -136,7 +136,7 @@ class InboundController
         $config = [
             'inbounds' => [
                 [
-                    'listen' => $data['listen'] ?? null,
+                    'listen' => $data['listen'] == '' ? null : $data['listen'],
                     'port' => $data['port'],
                     'protocol' => $data['protocol'],
                     'tag' => $data['tag'],
