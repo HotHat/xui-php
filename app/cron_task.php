@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use App\Command\XRun;
 use App\Database\DB;
 
 if (PHP_SAPI !== 'cli') { die(); }

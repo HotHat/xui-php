@@ -25,7 +25,7 @@ class XRun
     }
 
     public function createConfig($name, $config) {
-        $path = Config::V2RAY_CONFIG_DIR->value . $name;
+        $path = Config::V2RAY_CONFIG_DIR->value . $name . '.json';
         if (file_exists($path)) {
             return;
         }
@@ -35,7 +35,7 @@ class XRun
     }
 
     public function removeConfig($name) {
-        $path = Config::V2RAY_CONFIG_DIR->value . $name;
+        $path = Config::V2RAY_CONFIG_DIR->value . $name . '.json';
         if (file_exists($path)) {
             // TODO:
             $this->delInbound($path);
@@ -43,7 +43,7 @@ class XRun
         }
     }
     public function modifyConfig($name, $config) {
-        $path = Config::V2RAY_CONFIG_DIR->value . $name;
+        $path = Config::V2RAY_CONFIG_DIR->value . $name . '.json';
         if (file_exists($path)) {
             // TODO:
             $this->delInbound($path);
