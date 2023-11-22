@@ -31,14 +31,14 @@ class XRun
         }
         file_put_contents($path, $config);
         // TODO:
-        $this->addInbound($path);
+        $this->addInbound($name);
     }
 
     public function removeConfig($name) {
         $path = Config::V2RAY_CONFIG_DIR->value . $name . '.json';
         if (file_exists($path)) {
             // TODO:
-            $this->delInbound($path);
+            $this->delInbound($name);
             unlink($path);
         }
     }
@@ -46,11 +46,11 @@ class XRun
         $path = Config::V2RAY_CONFIG_DIR->value . $name . '.json';
         if (file_exists($path)) {
             // TODO:
-            $this->delInbound($path);
+            $this->delInbound($name);
 
             file_put_contents($path, $config);
 
-            $this->addInbound($path);
+            $this->addInbound($name);
         }
     }
 
@@ -58,8 +58,8 @@ class XRun
        shell_exec('service v2ray restart');
     }
 
-    private function addOrDelInbound($type, $config) {
-        $filePath = Config::V2RAY_CONFIG_DIR->value . $config;
+    private function addOrDelInbound($type, $name) {
+        $filePath = Config::V2RAY_CONFIG_DIR->value . $name . '.json';
         if (!file_exists($filePath)) {
             throw new \Exception($filePath. ' file not exist');
         }
