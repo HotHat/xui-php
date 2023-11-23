@@ -69,7 +69,9 @@ class InboundController
             array_values($bind)
         );
 
-        $this->task('add', $bind);
+        if ($s['enable']) {
+            $this->task('add', $bind);
+        }
 
         DB::commit();
 
@@ -97,7 +99,7 @@ class InboundController
 
         DB::beginTransaction();
 
-        $this->task('modify', $bind);
+        $this->task($s['enable'] == 'true' ? 'modify' : 'remove', $bind);
 
         $bind['rowid'] = intval($_GET['id']);
 
