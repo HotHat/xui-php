@@ -8,7 +8,7 @@ class XRun
 {
     public function stats() {
         $commandLine = sprintf(
-            "%s api stats -reset -regexp 'inbound-\d+' -server 127.0.0.1:%s -json",
+            "%s api stats -reset -s 127.0.0.1:%s -json -regexp 'inbound-\d+'",
             Config::V2RAY_PATH->value,
             Config::V2RAY_PORT->value,
         );
