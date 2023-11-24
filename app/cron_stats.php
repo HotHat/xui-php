@@ -23,7 +23,6 @@ foreach ($js['stat'] as $it) {
     [$type, $tag, $traffic, $direct] = explode('>>>', $it['name']);
 
     if (preg_match('/inbound-(\d)+/', $tag, $matches)) {
-        var_dump($it);
         $port = intval($matches[1]);
         $val = intval($it['value'] ?? 0);
 
